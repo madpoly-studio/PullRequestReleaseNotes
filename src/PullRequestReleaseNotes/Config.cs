@@ -82,6 +82,7 @@ namespace PullRequestReleaseNotes
             _programArgs.GitRepositoryPath ??= args.GitRepositoryPath;
             _programArgs.GitVersion ??= args.GitVersion;
             _programArgs.ReleaseBranchRef ??= args.ReleaseBranchRef;
+            _programArgs.ReleaseBranchVersionTag ??= args.ReleaseBranchVersionTag;
             _programArgs.ReleaseNoteCategoryPrefix ??= args.ReleaseNoteCategoryPrefix;
             _programArgs.ReleaseNoteDateFormat ??= args.ReleaseNoteDateFormat;
             _programArgs.ReleaseNoteFormat ??= args.ReleaseNoteFormat;

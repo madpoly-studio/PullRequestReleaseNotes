@@ -52,13 +52,18 @@ namespace PullRequestReleaseNotes.Models
 
         [ArgShortcut("-rnhl")]
         [YamlMember(Alias = "release-note-highlight-labels")]
-        [ArgExample("Label1,Label2", "List of labels which a pull request WITHOUT will be marked up as code to highlight the item in release notes.")]
+        [ArgExample("Label1,Label2", "List of labels which a pull request without will be marked up as code to highlight the item in release notes.")]
         public List<string> ReleaseNoteHighlightLabels { get; set; }
 
         [ArgShortcut("-ghb")]
         [YamlMember(Alias = "git-branch-ref")]
         [ArgExample("refs/heads/master", "Git head branch reference")]
         public string ReleaseBranchRef { get; set; }
+
+        [ArgShortcut("-gvt")]
+        [YamlMember(Alias = "git-branch-version-tag")]
+        [ArgExample("alpha", "Git branch SemVersion tag")]
+        public string ReleaseBranchVersionTag { get; set; }
 
         [ArgShortcut("-grp")]
         [YamlMember(Alias = "git-repo-path")]

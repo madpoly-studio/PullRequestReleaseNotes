@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
+using System.Text.RegularExpressions;
 using PullRequestReleaseNotes.Models;
 using PullRequestReleaseNotes.Providers;
 
@@ -9,6 +10,10 @@ namespace PullRequestReleaseNotes
     {
         private readonly ProgramArgs _programArgs;
         private readonly IPullRequestProvider _pullRequestProvider;
+
+        private static readonly Regex ParseSemVer = new Regex(
+            @"^[vV]?(?<SemVer>(?<Major>\d+)(\.(?<Minor>\d+))(\.(?<Patch>\d+))?)(\.(?<FourthPart>\d+))?(-(?<Tag>[^\+]*))?(\+(?<BuildMetaData>.*))?$",
+            RegexOptions.Compiled);
 
         public PullRequestHistoryBuilder(ProgramArgs programArgs)
         {
