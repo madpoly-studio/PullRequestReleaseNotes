@@ -15,6 +15,7 @@ namespace PullRequestReleaseNotes
 
         private static void Main(string[] args)
         {
+            // See https://stackoverflow.com/questions/32788409/c-sharp-httpwebrequest-the-underlying-connection-was-closed-an-unexpected-error/32789483
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls |
                 SecurityProtocolType.Tls11 |
                 SecurityProtocolType.Tls12;
@@ -52,7 +53,11 @@ namespace PullRequestReleaseNotes
             if (!publishedFile && !publishedConfluencePage && !publishedSlackPost)
                 return false;
             if (!publishedFile || !publishedConfluencePage || !publishedSlackPost)
+            {
                 Console.WriteLine("WARNING: Failed to publish release notes  ...");
+                Console.WriteLine("=============================================");
+                Console.WriteLine(combinedMarkdown);
+            }
             return true;
         }
 
@@ -113,7 +118,7 @@ namespace PullRequestReleaseNotes
         private static string BuildVersion()
         {
             var versionText = !string.IsNullOrWhiteSpace(_programArgs.GitVersion) ? _programArgs.GitVersion : "Unreleased";
-            return $"{versionText} ({_programArgs.ReleaseBranchRef.Replace("refs/heads/", string.Empty).ToUpper()}) - XX XXX {DateTime.Now:yyyy}";
+            return $"{versionText} ({_programArgs.LocalGitRepository.Head.CanonicalName.Replace("refs/heads/", string.Empty).ToUpper()}) - {DateTime.Now:yy}.{DateTime.Now:MM}.{DateTime.Now.GetWeekOfMonth()}";
         }
     }
 }

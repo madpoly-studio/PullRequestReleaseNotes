@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text.RegularExpressions;
 using PowerArgs;
@@ -10,7 +11,15 @@ namespace PullRequestReleaseNotes
     {
         private const string InvalidUnixEpochErrorMessage = "Unix epoc starts January 1st, 1970";
 
+        private static readonly GregorianCalendar _gc = new GregorianCalendar();
+
         private static DateTime m_epoch = new DateTime(1970, 1, 1, 0, 0, 0, DateTimeKind.Utc);
+
+        public static int GetWeekOfMonth(this DateTime time)
+        {
+            var first = new DateTime(time.Year, time.Month, 1);
+            return (time.GetWeekOfYear() - first.GetWeekOfYear()) + 1;
+        }
 
         public static DateTime FromTimestamp(this long timestamp)
         {
@@ -55,6 +64,11 @@ namespace PullRequestReleaseNotes
             foreach (var e in newElements)
                 if (!dictionary.ContainsKey(e.Key))
                     dictionary.Add(e);
+        }
+
+        private static int GetWeekOfYear(this DateTime time)
+        {
+            return _gc.GetWeekOfYear(time, CalendarWeekRule.FirstDay, DayOfWeek.Monday);
         }
     }
 }
