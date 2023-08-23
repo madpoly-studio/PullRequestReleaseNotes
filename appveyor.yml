@@ -12,6 +12,15 @@ platform:
 configuration:
   - Release
 
+cache:
+  - packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+  - '%USERPROFILE%\.nuget\packages -> **\*.csproj'
+  - '%ProgramData%\chocolatey\bin -> appveyor.yml'
+  - '%ProgramData%\chocolatey\lib -> appveyor.yml'
+
+before_build:
+  - appveyor-retry dotnet restore -v Minimal src/PullRequestReleaseNotes/PullRequestReleaseNotes.csproj
+
 build_script:
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo AssemblyInfo.cs
   # - cmd: nuget restore src/PullRequestReleaseNotes.sln
@@ -40,6 +49,5 @@ build_script:
 deploy:
   - provider: Environment
     name: nuget.org
-
-cache:
-  - src\packages -> **\packages.config  # preserve "packages" directory in the root of build folder but will reset it if packages.config is modified
+    on:
+      APPVEYOR_REPO_TAG: true
