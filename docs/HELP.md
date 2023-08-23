@@ -1,6 +1,11 @@
 ### Command Line Parameters
 Utility can have command line parameters passed to it or have the parameters supplied via a YAML based config or a mixture of both. Command line parameter will win if the same parameter is also supplied via YAML. You can generate a sample YAML file by passing -init parameter to the utility.
 
+TrieuNK: my fork provide following updates
+- Support `-ReleaseBranchVersionTag` to filter tag by git branch track name alpha/beta/rtm.
+- Fix incorrect hightlight rule for `release-note-highlight-labels`
+- Use local git head branch name for release notes title and use format `yyMM<week of month>`
+
 You can use `--version` as a command line parameter to print the version of the PullRequestReleaseNotes application.
 
 - `-PullRequestProviderName` (`-prpn`) : Default is `github`. Other providers supported are `gitlab`, `tfs`, `bitbucket` and `bitbucketserver`.
@@ -31,6 +36,7 @@ You can use `--version` as a command line parameter to print the version of the 
 - `-GitVersion` (`-gv`) : Default ("Unreleased"). Can be supplied as parameter or `GITVERSION_MAJORMINORPATCH` environment variable.
 - `-GitTagsAnnotated` (`-gta`) : Default ("false"). Set to "true" to only consider annotated tags as releases.
 - `-ReleaseBranchRef` (`-ghb`) : Default is head branch.
+- `-ReleaseBranchVersionTag` (`-gvt`) : Track name as git branch SemVersion tag, default is `alpha`.
 - `-ReleaseBranchHeadsOnly` (`-rbho`) : Default is ("true"). When set to true it will only generate notes from any head branch and not pull request branches. When set to false it will generate notes for any branch.
 - `-ReleaseNoteSectioned` (`-rns`) : Default ("false"). Set to "true" to enable note sections.
 - `-ReleaseNoteSections`(`-rnsl`) : Default ("bug=Fixes,enhancement=Enhancements"). Key value pairs of pull request labels and their descriptions used for note sections.
@@ -80,6 +86,7 @@ See Command Line Parameters for details on default values or parameter usage
 - `release-branch-heads-only`
 - `release-note-highlight-labels`
 - `git-branch-ref`
+- `git-branch-version-tag"`
 - `git-repo-path`
 - `git-remote-name`
 - `git-version`

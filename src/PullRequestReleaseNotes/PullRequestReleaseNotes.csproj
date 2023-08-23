@@ -8,9 +8,6 @@
     <Product>PullRequestReleaseNotes</Product>
     <Description>Builds release history notes from unreleased pull requests on GitHub, GitLab, Azure DevOps Services / Server, BitBucket Cloud and Bitbucket Server and optionally posts them to a markdown file, Atlassian Confluence and Slack.</Description>
     <Copyright>Copyright © Jasmin Sehic 2016</Copyright>
-    <AssemblyVersion>2.1.0.0</AssemblyVersion>
-    <FileVersion>2.1.0.0</FileVersion>
-    <Version>2.1.0.0</Version>
     <RestorePackagesPath>$(SolutionDir)\packages</RestorePackagesPath>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <PackageProjectUrl>https://github.com/jasminsehic/PullRequestReleaseNotes</PackageProjectUrl>
@@ -22,6 +19,7 @@
     <Owners>Jasmin Sehic</Owners>
     <PackageLicenseExpression></PackageLicenseExpression>
     <PackageIcon>logo.png</PackageIcon>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Infinity.NET" Version="0.2.1" />
