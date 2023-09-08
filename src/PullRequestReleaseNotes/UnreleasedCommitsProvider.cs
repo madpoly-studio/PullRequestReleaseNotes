@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using LibGit2Sharp;
@@ -8,20 +7,33 @@ namespace PullRequestReleaseNotes
 {
     public class UnreleasedCommitsProvider
     {
-        private static readonly Regex ParseSemVer = new Regex(@"^(?<SemVer>(?<Major>\d+)(\.(?<Minor>\d+))(\.(?<Patch>\d+))?)(\.(?<FourthPart>\d+))?(-(?<Tag>[^\+]*))?(\+(?<BuildMetaData>.*))?$", RegexOptions.Compiled);
+        private static readonly Regex ParseSemVer = new(
+            @"^[vV]?(?<SemVer>(?<Major>\d+)(\.(?<Minor>\d+))(\.(?<Patch>\d+))?)(\.(?<FourthPart>\d+))?(-(?<Tag>[^\+]*))?(\+(?<BuildMetaData>.*))?$",
+            RegexOptions.Compiled);
 
-        public IEnumerable<Commit> GetAllUnreleasedMergeCommits(IRepository repo, string releaseBranchRef, bool annotatedTagOnly)
+        public IEnumerable<Commit> GetAllUnreleasedMergeCommits(IRepository repo, string releaseBranchRef,
+            bool annotatedTagOnly, string releaseBranchVersionTag = "alpha")
         {
             var releasedCommitsHash = new Dictionary<string, Commit>();
             var branchReference = repo.Branches[releaseBranchRef];
-            var tagCommits = repo.Tags
+            var tagCommitGroups = repo.Tags
                 .Where(x => !annotatedTagOnly || x.IsAnnotated)
                 .Where(t => ParseSemVer.Match(t.FriendlyName).Success)
-                .Select(tag => tag.PeeledTarget.Peel<Commit>()).Where(x => x != null)
-                .OrderByDescending(x => x.Author.When)
-                .ToList()
-                .AsParallel().Where(x => BranchContainsTag(repo, x, branchReference))
-                .ToList();
+                .Select(
+                    t => new
+                    {
+                        version = t.FriendlyName,
+                        commit = t.Target as Commit,
+                        versionTag = ParseSemVer.Match(t.FriendlyName).Groups["Tag"].Value.Split('.')[0]
+                    }
+                )
+                .GroupBy(o => o.versionTag, o => o).ToList();
+                
+            var branchTag = releaseBranchVersionTag ?? string.Empty;
+            var tagCommits = (tagCommitGroups.SingleOrDefault(g => g.Key == branchTag) ?? tagCommitGroups.First())
+                .Select(g => g.commit)
+                .Where(x => x != null).ToList();
+
             var branchAncestors = repo.Commits
                 .QueryBy(new CommitFilter { IncludeReachableFrom = branchReference })
                 .Where(commit => commit.Parents.Count() > 1);

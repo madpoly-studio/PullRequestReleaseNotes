@@ -25,8 +25,8 @@ namespace PullRequestReleaseNotes
         {
             var unreleasedCommitsProvider = new UnreleasedCommitsProvider();
             var unreleasedCommits = unreleasedCommitsProvider.GetAllUnreleasedMergeCommits(
-                _programArgs.LocalGitRepository, _programArgs.ReleaseBranchRef, _programArgs.GitTagsAnnotated);
-            return unreleasedCommits.Select(mergeCommit => _pullRequestProvider.Get(mergeCommit.Message))
+                _programArgs.LocalGitRepository, _programArgs.ReleaseBranchRef, _programArgs.GitTagsAnnotated, _programArgs.ReleaseBranchVersionTag);
+            return unreleasedCommits.AsParallel().Select(mergeCommit => _pullRequestProvider.Get(mergeCommit.Message))
                 .Where(pullRequestDto => pullRequestDto != null).ToList();
         }
     }
