@@ -45,22 +45,22 @@ namespace PullRequestReleaseNotes
             // for each tagged commit walk down all its parents and collect a dictionary of unique commits
             foreach (var tagCommit in tagCommits)
             {
-                var containedInOtherTag = TagContainedInOtherCheckedTags(repo, checkedTags, tagCommit);
-
-                if (containedInOtherTag)
-                {
-                    // insert to the beginning so this tag will be checked first for next tag
-                    // because this tag is probably the closest tag that contains the next one.
-                    checkedTags.Insert(0, tagCommit);
-                    continue;
-                }
+                // var containedInOtherTag = TagContainedInOtherCheckedTags(repo, checkedTags, tagCommit);
+                //
+                // if (containedInOtherTag)
+                // {
+                //     // insert to the beginning so this tag will be checked first for next tag
+                //     // because this tag is probably the closest tag that contains the next one.
+                //     checkedTags.Insert(0, tagCommit);
+                //     continue;
+                // }
 
                 var releasedCommits = repo.Commits
                     .QueryBy(new CommitFilter {IncludeReachableFrom = tagCommit.Id})
                     .Where(commit => commit.Parents.Count() > 1)
                     .ToDictionary(i => i.Sha, i => i);
                 releasedCommitsHash.Merge(releasedCommits);
-                checkedTags.Insert(0, tagCommit);
+                // checkedTags.Insert(0, tagCommit);
             } 
 
             // remove released commits from the branch ancestor commits as they have been previously released
