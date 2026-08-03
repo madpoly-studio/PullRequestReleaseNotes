@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Linq;
 using System.Net;
 using PullRequestReleaseNotes.Models;
@@ -110,8 +110,13 @@ namespace PullRequestReleaseNotes.Publishers
 
         private static RestClient PrepareConfluenceClient(ProgramArgs programArgs)
         {
-            var client = new RestClient(programArgs.ConfluenceApiUrl);
-            client.Authenticator = new HttpBasicAuthenticator(programArgs.ConfluenceUser, programArgs.ConfluencePassword);
+            var options = new RestClientOptions(programArgs.ConfluenceApiUrl)
+            {
+                Authenticator = new HttpBasicAuthenticator(programArgs.ConfluenceUser, programArgs.ConfluencePassword)
+            };
+
+            var client = new RestClient(options);
+
             return client;
         }
 

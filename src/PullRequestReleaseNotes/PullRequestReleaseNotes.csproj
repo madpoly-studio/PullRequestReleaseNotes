@@ -2,7 +2,7 @@
   <PropertyGroup>
     <ProjectGuid>{B7A7DF45-4248-4784-8417-594F15B7484A}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <AssemblyTitle>PullRequestReleaseNotes</AssemblyTitle>
     <Company>Jasmin Sehic</Company>
     <Product>PullRequestReleaseNotes</Product>
@@ -23,13 +23,17 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Infinity.NET" Version="0.2.1" />
-    <PackageReference Include="LibGit2Sharp" Version="0.26.2" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Octokit" Version="0.51.0" />
-    <PackageReference Include="PowerArgs" Version="3.6.0" />
-    <PackageReference Include="RestSharp" Version="108.0.1" />
+    <PackageReference Include="LibGit2Sharp" Version="0.32.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="Octokit" Version="14.0.0" />
+    <PackageReference Include="PowerArgs" Version="4.0.3" />
+    <PackageReference Include="RestSharp" Version="114.0.0" />
     <PackageReference Include="SharpBucket" Version="0.17.0" />
-    <PackageReference Include="YamlDotNet" Version="11.2.1" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.9.1" />
+    <PackageReference Include="System.DirectoryServices.Protocols" Version="10.0.10" />
+    <PackageReference Include="System.Drawing.Common" Version="10.0.10" />
+    <PackageReference Include="System.Security.Cryptography.Xml" Version="10.0.10" />
+    <PackageReference Include="YamlDotNet" Version="18.1.0" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\docs\img\logo.png">

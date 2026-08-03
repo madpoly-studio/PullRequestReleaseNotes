@@ -23,8 +23,11 @@ namespace PullRequestReleaseNotes.Providers
         {
             _programArgs = programArgs;
             DiscoverBitBucketServerCredentials();
-            _restClient = new RestClient($"{_programArgs.BitBucketServerUrl}/rest/api/1.0/projects/{_programArgs.BitBucketServerProject}/repos/{_programArgs.BitBucketServerRepository}");
-            _restClient.Authenticator = new HttpBasicAuthenticator(programArgs.BitBucketServerUsername, programArgs.BitBucketServerPassword);
+            var options = new RestClientOptions($"{_programArgs.BitBucketServerUrl}/rest/api/1.0/projects/{_programArgs.BitBucketServerProject}/repos/{_programArgs.BitBucketServerRepository}")
+            {
+                Authenticator = new HttpBasicAuthenticator(programArgs.BitBucketServerUsername, programArgs.BitBucketServerPassword)
+            };
+            _restClient = new RestClient(options);
         }
 
         private void DiscoverBitBucketServerCredentials()

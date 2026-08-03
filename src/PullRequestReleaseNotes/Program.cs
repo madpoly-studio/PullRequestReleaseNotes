@@ -1,6 +1,5 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Net;
 using PullRequestReleaseNotes.Models;
 using PullRequestReleaseNotes.Publishers;
 
@@ -15,15 +14,8 @@ namespace PullRequestReleaseNotes
 
         private static void Main(string[] args)
         {
-            // See https://stackoverflow.com/questions/32788409/c-sharp-httpwebrequest-the-underlying-connection-was-closed-an-unexpected-error/32789483
-            ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls |
-                SecurityProtocolType.Tls11 |
-                SecurityProtocolType.Tls12;
-
             int exitCode;
             _programArgs = ValidateConfiguration(args);
-            if (_programArgs.AcceptInvalidCertificates)
-                ServicePointManager.ServerCertificateValidationCallback = delegate { return true; };
             var releaseHistory = new PullRequestHistoryBuilder(_programArgs).BuildHistory();
             if (releaseHistory == null)
                 exitCode = FailureExitCode;
@@ -122,4 +114,3 @@ namespace PullRequestReleaseNotes
         }
     }
 }
-
