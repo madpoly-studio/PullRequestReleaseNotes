@@ -1,7 +1,7 @@
 install:
   - choco install gitversion.portable -y --version=5.12.0
 
-image: Visual Studio 2022
+image: Visual Studio 2026
 
 assembly_info:
   patch: false
@@ -25,10 +25,10 @@ build_script:
   - ps: gitversion /l console /output buildserver /updateAssemblyInfo AssemblyInfo.cs
   - cmd: dotnet build -c %CONFIGURATION% src/PullRequestReleaseNotes/PullRequestReleaseNotes.csproj
   # - cmd: xcopy /S /Y "src\PullRequestReleaseNotes\bin\%platform%\%CONFIGURATION%\net6.0" build\NuGetExeBuild\netcore\tools\net6.0\any\
-  - cmd: xcopy /S /Y "src\PullRequestReleaseNotes\bin\%platform%\%CONFIGURATION%\net8.0" build\NuGetExeBuild\netcore\tools\net8.0\any\
+  - cmd: xcopy /S /Y "src\PullRequestReleaseNotes\bin\%platform%\%CONFIGURATION%\net10.0" build\NuGetExeBuild\netcore\tools\net10.0\any\
   - cmd: xcopy /S /Y src\PullRequestReleaseNotes\NuGetAssets build\NuGetExeBuild\netcore\
   # - cmd: move /Y build\NuGetExeBuild\netcore\DotnetToolSettings.xml build\NuGetExeBuild\netcore\tools\net6.0\any\DotnetToolSettings.xml
-  - cmd: move /Y build\NuGetExeBuild\netcore\DotnetToolSettings.xml build\NuGetExeBuild\netcore\tools\net8.0\any\DotnetToolSettings.xml
+  - cmd: move /Y build\NuGetExeBuild\netcore\DotnetToolSettings.xml build\NuGetExeBuild\netcore\tools\net10.0\any\DotnetToolSettings.xml
   - cmd: del build\NuGetExeBuild\netcore\PullRequestReleaseNotes.nuspec /F /Q
   - cmd: del build\NuGetExeBuild\netcore\*.txt /F /Q
   - cmd: del build\NuGetExeBuild\netcore\*.exe /F /Q
